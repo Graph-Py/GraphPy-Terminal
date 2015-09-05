@@ -62,7 +62,7 @@ main(int argc, char *argv[])
 }
 
 //******************************************************************************//
-// Function: INIT_APP										 		//
+// Function: INIT_APP								//
 // This function builds and initializes widgets in the glade ui design		//
 //******************************************************************************//
 gboolean
@@ -76,7 +76,7 @@ init_app (TerminalView *terminal)
 	if (gtk_builder_add_from_file (builder, UI_DESIGN_FILE, &err) == 0)
 	{
 		g_warning ("Error Reading Glade/UI file:\n%s", err->message);
-		return TRUE;			// The return value on error is changed from previous version termin001.c //
+		return TRUE;
 	}
 	
 	// Get the widgets //
@@ -90,11 +90,11 @@ init_app (TerminalView *terminal)
 	
 	g_object_unref (G_OBJECT (builder));
 	
-	return FALSE; // The return value on error is changed from previous version termin001.c //
+	return FALSE;
 }
 
 //******************************************************************************//
-// Function: INIT_TERMINAL										 	//
+// Function: INIT_TERMINAL							//
 // This function initializes the terminal window with necessary tags and marks	//
 //******************************************************************************//
 
@@ -105,8 +105,7 @@ init_terminal (TerminalView *terminal)
 	GtkTextIter		start, end;
 	
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (terminal->text_view));
-	gtk_text_buffer_create_tag (buffer, "prompt", "foreground", "blue", NULL);	// The tag name "command" in the previous
-																// version is renamed as "prompt" 
+	gtk_text_buffer_create_tag (buffer, "prompt", "foreground", "blue", NULL);
 	gtk_text_buffer_create_tag (buffer, "normal", "foreground", "black", NULL);
 	gtk_text_buffer_create_tag (buffer, "error", "foreground", "red", NULL);
 	
@@ -114,7 +113,7 @@ init_terminal (TerminalView *terminal)
 	gtk_text_buffer_create_tag (buffer, "can-edit", "editable", TRUE, NULL);
 	gtk_text_buffer_create_tag (buffer, "not-editable", "editable", FALSE, NULL);
 	
-	// Insert a prompt on the textview buffer and make i not editable for the user //
+	// Insert a prompt on the textview buffer and make it not editable for the user //
 	gtk_text_buffer_get_end_iter (buffer, &end);
 	gtk_text_buffer_create_mark  (buffer, "input-line", &end, TRUE);
 	gtk_text_buffer_insert (buffer, &end, ">>> ", -1);
@@ -127,8 +126,8 @@ init_terminal (TerminalView *terminal)
 
 
 //******************************************************************************//
-// Function: KEY_PRESS_EVENT										 	//
-// Function to handle Key press events on text buffer						//
+// Function: KEY_PRESS_EVENT							//
+// Function to handle Key press events on text buffer				//
 //******************************************************************************//
 
 gboolean
@@ -136,7 +135,7 @@ on_textview_key_press_event (GtkWidget *widget, GdkEventKey *event, TerminalView
 {
 	GdkModifierType	modifier_mask;
 	guint			event_state;
-	const gchar		*prompt_mark = ">>> ";	// "com_mark" in previous version is renamed as prompt_mark //
+	const gchar		*prompt_mark = ">>> ";
 	
 	modifier_mask = gtk_accelerator_get_default_mod_mask ();
 	event_state = event->state & modifier_mask;
@@ -155,11 +154,12 @@ on_textview_key_press_event (GtkWidget *widget, GdkEventKey *event, TerminalView
 		gchar		*current_command;
 		
 		
-// Possible Bug Notification	//		
-		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget)); // Possible bug: make sure that the widget here is the TextView...	//
-														// there will be a chance to get errors when multiple widgets ...	//
-														// present in the ui.										//
+// Possible Bug Notification	//
+		// Possible bug: make sure that the widget here is the TextView...			//
+		// there will be a chance to get errors when multiple widgets present in the ui.	//						//
 		// Get the marks //
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
+		
 		inp_mark = gtk_text_buffer_get_mark (buffer, "input");
 		lin_mark = gtk_text_buffer_get_mark (buffer, "input-line");
 		
@@ -196,8 +196,8 @@ on_textview_key_press_event (GtkWidget *widget, GdkEventKey *event, TerminalView
 
 		// apply tag to the new line //
 		gtk_text_buffer_get_iter_at_mark (buffer, &lin, lin_mark);
-		gtk_text_buffer_apply_tag_by_name (buffer, "prompt", &lin, &end);	// in this code tag name "command" (from the previous version)...
-																// is renamed as "prompt".
+		gtk_text_buffer_apply_tag_by_name (buffer, "prompt", &lin, &end);
+		
 		// make the previous lines not editable //
 		gtk_text_buffer_get_iter_at_offset (buffer, &start, 0);
 		gtk_text_buffer_get_end_iter (buffer, &end);
