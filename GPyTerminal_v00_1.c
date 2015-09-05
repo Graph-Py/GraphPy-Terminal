@@ -1,13 +1,14 @@
 // The application is named as GraphPy //
 
 /*
+GPyTerminal Version 0.0.1
 file name : GPyTermina_v00_1.c
 This code is the updation to code: termin001.c
 */
 
 #include <gtk/gtk.h>
 
-#define UI_DESIGN_FILE "TerminalUI.glade"
+#define UI_DESIGN_FILE "GPyTerminalUI001.glade"
 // Store the widgets which may need to be accessed //
 typedef struct
 {
