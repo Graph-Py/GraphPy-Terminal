@@ -6,6 +6,12 @@ file name : GPyTermina_v00_1.c
 This code is the updation to code: termin001.c
 */
 
+/*
+Compile this code with
+`pkg-config --cflags gtk+-3.0 --cflags gdk-3.0`
+`pkg-config --libs gtk+-3.0 --libs gdk-3.0`
+*/
+
 #include <gtk/gtk.h>
 
 #define UI_DESIGN_FILE "GPyTerminalUI001.glade"
@@ -197,10 +203,8 @@ on_textview_key_press_event (GtkWidget *widget, GdkEventKey *event, TerminalView
 		gtk_text_buffer_get_end_iter (buffer, &end);
 		gtk_text_buffer_apply_tag_by_name (buffer,"not-editable", &start, &end);
 		
-		// Not sure whether it is the right method to avoid
-		//inserting(automatically) a new line character in the text buffer after returning fron this function
-		//event->keyval = 0;
-		return TRUE;	// To prevent the event from propagating further //
+		// Not sure whether it is the right method to prevent the event from propagating further //
+		return TRUE;
 	}
 	return FALSE;
 }
