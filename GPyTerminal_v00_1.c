@@ -203,6 +203,10 @@ on_textview_key_press_event (GtkWidget *widget, GdkEventKey *event, TerminalView
 		gtk_text_buffer_get_end_iter (buffer, &end);
 		gtk_text_buffer_apply_tag_by_name (buffer,"not-editable", &start, &end);
 		
+		// Scroll down to the latest content //
+		gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (widget), inp_mark, 0.0, FALSE, 0.0, 0.0); 
+
+		
 		// Not sure whether it is the right method to prevent the event from propagating further //
 		return TRUE;
 	}
